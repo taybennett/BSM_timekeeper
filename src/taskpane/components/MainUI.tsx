@@ -241,7 +241,7 @@ export default function MainUI({ user, showToast, mode, setMode }: any) {
       {/* NEW TIMER WIDGET */}
       <Paper elevation={0} sx={{ m: 2, p: 2, bgcolor: 'action.hover', borderRadius: 2, textAlign: 'center' }}>
         <Typography variant="caption" sx={{ fontWeight: 700, opacity: 0.6, display: 'block', mb: 1 }}>
-          LIVE SESSION TRACKER
+          LIVE SESSIONS TRACKER
         </Typography>
         <Typography variant="h3" sx={{ fontFamily: 'monospace', fontWeight: 700, mb: 1 }}>
           {formatDisplayTime(seconds)}
