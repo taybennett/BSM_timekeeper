@@ -1,0 +1,502 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MAHFK Time Entry</title>
+  <script type="text/javascript" src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
+  <style>
+    :root {
+      --mahfk-gold: #c5a368;
+      --mahfk-gold-dark: #a9874e;
+      --bg: #0f0f11;
+      --panel: #1a1a1e;
+      --panel-soft: #242429;
+      --border: rgba(255, 255, 255, 0.1);
+      --text: #f4f4f5;
+      --muted: #a1a1aa;
+      --danger: #ef4444;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Inter, "Segoe UI", Arial, sans-serif;
+    }
+
+    .shell {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background: var(--bg);
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 18px 20px;
+      border-bottom: 1px solid var(--border);
+      background: var(--panel);
+    }
+
+    .logo-box {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      border-radius: 8px;
+      background: var(--mahfk-gold);
+      flex: 0 0 auto;
+    }
+
+    .logo-box img {
+      width: 34px;
+      height: 34px;
+      object-fit: contain;
+    }
+
+    .brand {
+      min-width: 0;
+    }
+
+    .brand-title {
+      margin: 0;
+      color: var(--mahfk-gold);
+      font-size: 16px;
+      font-weight: 900;
+      letter-spacing: 1px;
+    }
+
+    .brand-subtitle {
+      margin: 3px 0 0;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.6px;
+      text-transform: uppercase;
+    }
+
+    main {
+      flex: 1;
+      padding: 20px;
+    }
+
+    .section-label {
+      margin: 0 0 10px;
+      color: var(--mahfk-gold);
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .summary {
+      padding: 16px;
+      border-left: 4px solid var(--mahfk-gold);
+      border-radius: 8px;
+      background: var(--panel);
+    }
+
+    .summary h1 {
+      margin: 0;
+      font-size: 20px;
+      line-height: 1.25;
+    }
+
+    .summary p {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .quick-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 8px;
+      margin-top: 18px;
+    }
+
+    .quick-option {
+      min-height: 44px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--panel-soft);
+      color: var(--text);
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .quick-option:hover,
+    .quick-option.selected {
+      border-color: var(--mahfk-gold);
+      background: rgba(197, 163, 104, 0.16);
+      color: var(--mahfk-gold);
+    }
+
+    .field {
+      margin-top: 18px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    .number-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      align-items: center;
+    }
+
+    input,
+    select {
+      width: 100%;
+      min-height: 46px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--panel);
+      color: var(--text);
+      padding: 0 14px;
+      font-size: 18px;
+      font-weight: 800;
+      outline: none;
+    }
+
+    select {
+      appearance: none;
+      background-image: linear-gradient(45deg, transparent 50%, var(--mahfk-gold) 50%),
+        linear-gradient(135deg, var(--mahfk-gold) 50%, transparent 50%);
+      background-position: calc(100% - 18px) 20px, calc(100% - 12px) 20px;
+      background-size: 6px 6px, 6px 6px;
+      background-repeat: no-repeat;
+      padding-right: 36px;
+      font-size: 14px;
+    }
+
+    input:focus,
+    select:focus {
+      border-color: var(--mahfk-gold);
+      box-shadow: 0 0 0 3px rgba(197, 163, 104, 0.18);
+    }
+
+    .stepper {
+      display: flex;
+      gap: 6px;
+    }
+
+    .icon-button {
+      width: 46px;
+      height: 46px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--panel);
+      color: var(--text);
+      cursor: pointer;
+      font-size: 22px;
+      font-weight: 700;
+    }
+
+    .helper {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .error {
+      min-height: 18px;
+      margin: 12px 0 0;
+      color: var(--danger);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .actions {
+      display: grid;
+      grid-template-columns: 1fr 1.6fr;
+      gap: 10px;
+      padding: 16px 20px 20px;
+      border-top: 1px solid var(--border);
+      background: var(--panel);
+    }
+
+    .button {
+      min-height: 46px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 900;
+    }
+
+    .button-secondary {
+      background: transparent;
+      color: var(--text);
+    }
+
+    .button-primary {
+      border-color: var(--mahfk-gold);
+      background: var(--mahfk-gold);
+      color: #111111;
+    }
+
+    .button-primary:hover {
+      background: var(--mahfk-gold-dark);
+    }
+
+    .button:disabled {
+      cursor: not-allowed;
+      opacity: 0.58;
+    }
+
+    @media (max-width: 420px) {
+      main {
+        padding: 16px;
+      }
+
+      .quick-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .actions {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="shell">
+    <header class="header">
+      <div class="logo-box">
+        <img src="/assets/icon-128-removebg-preview.png" alt="MAHFK" />
+      </div>
+      <div class="brand">
+        <p class="brand-title">MAHFK</p>
+        <p class="brand-subtitle">Legal Time Entry</p>
+      </div>
+    </header>
+
+    <main>
+      <section class="summary">
+        <p class="section-label">Before Send</p>
+        <h1>Add billable hours</h1>
+        <p>Select the matter and time spent on this email. The message will send after you submit.</p>
+      </section>
+
+      <div class="field">
+        <label for="matter">Client matter</label>
+        <select id="matter">
+          <option value="">Auto detect from email</option>
+        </select>
+        <p class="helper" id="matterStatus">Loading matters...</p>
+      </div>
+
+      <div class="quick-grid" aria-label="Quick hour options">
+        <button class="quick-option" type="button" data-hours="0.1">0.1h</button>
+        <button class="quick-option" type="button" data-hours="0.2">0.2h</button>
+        <button class="quick-option" type="button" data-hours="0.3">0.3h</button>
+        <button class="quick-option" type="button" data-hours="0.5">0.5h</button>
+        <button class="quick-option" type="button" data-hours="0.8">0.8h</button>
+        <button class="quick-option" type="button" data-hours="1.0">1.0h</button>
+        <button class="quick-option" type="button" data-hours="1.5">1.5h</button>
+        <button class="quick-option" type="button" data-hours="2.0">2.0h</button>
+      </div>
+
+      <div class="field">
+        <label for="hours">Manual hours</label>
+        <div class="number-row">
+          <input id="hours" type="number" min="0.1" max="24" step="0.1" value="0.1" inputmode="decimal" />
+          <div class="stepper">
+            <button class="icon-button" id="decrease" type="button" aria-label="Decrease hours">-</button>
+            <button class="icon-button" id="increase" type="button" aria-label="Increase hours">+</button>
+          </div>
+        </div>
+        <p class="helper">Hours are recorded in 0.1 hour increments.</p>
+        <p class="error" id="error" role="alert"></p>
+      </div>
+    </main>
+
+    <footer class="actions">
+      <button class="button button-secondary" id="cancel" type="button">Cancel Send</button>
+      <button class="button button-primary" id="submit" type="button">Submit Hours</button>
+    </footer>
+  </div>
+
+  <script>
+    (function () {
+      var API = "https://mahfk-api-production.up.railway.app";
+      var hoursInput = document.getElementById("hours");
+      var matterSelect = document.getElementById("matter");
+      var matterStatus = document.getElementById("matterStatus");
+      var error = document.getElementById("error");
+      var submitButton = document.getElementById("submit");
+      var cancelButton = document.getElementById("cancel");
+      var quickOptions = Array.prototype.slice.call(document.querySelectorAll(".quick-option"));
+
+      function normalizeHours(value) {
+        var parsed = Number(value);
+        if (!isFinite(parsed)) {
+          return NaN;
+        }
+
+        return Math.round(parsed * 10) / 10;
+      }
+
+      function setHours(value) {
+        var hours = normalizeHours(value);
+        if (!isFinite(hours)) {
+          return;
+        }
+
+        hours = Math.min(24, Math.max(0.1, hours));
+        hoursInput.value = hours.toFixed(1);
+        quickOptions.forEach(function (option) {
+          option.classList.toggle("selected", option.getAttribute("data-hours") === hoursInput.value);
+        });
+        error.textContent = "";
+      }
+
+      function sendMessage(payload) {
+        var message = JSON.stringify(payload);
+
+        if (window.Office && Office.context && Office.context.ui && Office.context.ui.messageParent) {
+          Office.context.ui.messageParent(message);
+          return;
+        }
+
+        window.parent.postMessage(message, "*");
+      }
+
+      function setSubmitting(isSubmitting) {
+        submitButton.disabled = isSubmitting;
+        cancelButton.disabled = isSubmitting;
+        submitButton.textContent = isSubmitting ? "Submitting..." : "Submit Hours";
+      }
+
+      function getMatterLabel(matter) {
+        return matter.client || matter.name || matter.title || matter.matter_name || matter.id || "Matter";
+      }
+
+      function getMatterId(matter) {
+        return matter.id || matter.matter_id || "";
+      }
+
+      function loadMatters() {
+        fetch(API + "/matters")
+          .then(function (response) {
+            if (!response.ok) {
+              throw new Error("Matters request failed");
+            }
+
+            return response.json();
+          })
+          .then(function (matters) {
+            var savedMatterId = localStorage.getItem("mahfk_last_matter_id") || "";
+            var list = Array.isArray(matters) ? matters : [];
+
+            list.forEach(function (matter) {
+              var matterId = getMatterId(matter);
+              if (!matterId) {
+                return;
+              }
+
+              var option = document.createElement("option");
+              option.value = matterId;
+              option.textContent = getMatterLabel(matter);
+              option.setAttribute("data-label", getMatterLabel(matter));
+              matterSelect.appendChild(option);
+            });
+
+            if (savedMatterId) {
+              matterSelect.value = savedMatterId;
+            }
+
+            matterStatus.textContent = list.length
+              ? "Choose a matter or keep auto detect."
+              : "No matters found. Auto detect will be used.";
+          })
+          .catch(function () {
+            matterStatus.textContent = "Could not load matters. Auto detect will be used.";
+          });
+      }
+
+      quickOptions.forEach(function (option) {
+        option.addEventListener("click", function () {
+          setHours(option.getAttribute("data-hours"));
+        });
+      });
+
+      document.getElementById("increase").addEventListener("click", function () {
+        setHours(normalizeHours(hoursInput.value) + 0.1);
+      });
+
+      document.getElementById("decrease").addEventListener("click", function () {
+        setHours(normalizeHours(hoursInput.value) - 0.1);
+      });
+
+      hoursInput.addEventListener("input", function () {
+        setHours(hoursInput.value);
+      });
+
+      document.getElementById("cancel").addEventListener("click", function () {
+        sendMessage({ action: "cancel" });
+      });
+
+      document.getElementById("submit").addEventListener("click", function () {
+        var hours = normalizeHours(hoursInput.value);
+        if (!isFinite(hours) || hours <= 0 || hours > 24) {
+          error.textContent = "Please enter hours between 0.1 and 24.";
+          return;
+        }
+
+        var selectedMatter = matterSelect.options[matterSelect.selectedIndex];
+        var matterId = matterSelect.value;
+        var matterName = selectedMatter ? selectedMatter.getAttribute("data-label") || selectedMatter.textContent : "";
+        var submittedAt = new Date().toISOString();
+        setSubmitting(true);
+        error.textContent = "";
+
+        if (matterId) {
+          localStorage.setItem("mahfk_last_matter_id", matterId);
+        }
+
+        sendMessage({
+          action: "submit",
+          hours: hours,
+          matterId: matterId,
+          matterName: matterName,
+          submittedAt: submittedAt
+        });
+      });
+
+      if (!window.Office || !Office.onReady) {
+        setHours(hoursInput.value);
+        loadMatters();
+        return;
+      }
+
+      Office.onReady(function () {
+        setHours(hoursInput.value);
+        loadMatters();
+      });
+    })();
+  </script>
+</body>
+
+</html>

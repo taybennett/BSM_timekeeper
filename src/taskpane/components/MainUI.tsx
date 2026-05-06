@@ -135,7 +135,7 @@ export default function MainUI({ user, showToast, mode, setMode }: any) {
   // --- TIMER STATE ---
   const [seconds, setSeconds] = useState(0);
   const [isRunning, setIsRunning] = useState(false);
-  const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const timerRef = useRef<any | null>(null);
 
   // Convert seconds to HH:MM:SS for the display
   const formatDisplayTime = (s: number) => {

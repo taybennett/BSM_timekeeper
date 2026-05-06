@@ -42,7 +42,7 @@ export default function Login({ setUser, showToast, mode, setMode }: any) {
 
         <Stack spacing={4} sx={{ width: '100%', maxWidth: 400, textAlign: 'center' }}>
           <Box>
-            <img src={require('../../../assets/icon-128-removebg-preview.png')} width={80} alt="Logo" />
+            <img src='../../../assets/icon-128-removebg-preview.png' width={80} alt="Logo" />
             <Typography variant="h5" sx={{ fontWeight: 900, mt: 2, color: BRAND_GOLD }}>MAHFK</Typography>
             <Typography variant="caption" color="text.secondary">LEGAL ENTERPRISE SOLUTIONS</Typography>
           </Box>
